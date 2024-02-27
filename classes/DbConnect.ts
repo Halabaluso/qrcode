@@ -1,6 +1,6 @@
 import type { MethodDb } from "../interfaces/db"
 import type { GeneralResponse } from "../server/interfaces/dbresponses"
-import type { PostType, DeleteType, GetType } from "../server/interfaces/calltypes"
+import type { PostType, DeleteType, GetType, PutType } from "../server/interfaces/calltypes"
 
 class DbConnect {
     url: string
@@ -16,7 +16,7 @@ class DbConnect {
         this.method = method
     }
 
-    async Connect(object: DeleteType | PostType | GetType) {
+    async Connect(object: DeleteType | PostType | GetType | PostType) {
         let response: GeneralResponse = {
             err: false,
             msg: "",
@@ -45,6 +45,19 @@ class DbConnect {
                 .catch(err => {
                     this.response.err = true
                     this.response.msg = "Un error a sucedido al hacer GET."
+                    this.response.msgObject = err
+                })
+                break;
+            case "PUT":
+                await fetch(this.url, {
+                    method: this.method,
+                    body: JSON.stringify(object)
+                })
+                .then((data) => { return data.json() })
+                .then(data => { this.response = data })
+                .catch(err => {
+                    this.response.err = true
+                    this.response.msg = "Un error a sucedido al hacer PUT."
                     this.response.msgObject = err
                 })
                 break;

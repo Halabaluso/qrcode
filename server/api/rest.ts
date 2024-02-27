@@ -1,5 +1,5 @@
 import { DbCrud } from "../classes/DbCrud"
-import type { PostType, DeleteType, GetType } from "../interfaces/calltypes"
+import type { PostType, DeleteType, GetType, PutType } from "../interfaces/calltypes"
 import type { GeneralResponse } from "../interfaces/dbresponses"
 
 export default defineEventHandler(async (e) => {
@@ -15,6 +15,14 @@ export default defineEventHandler(async (e) => {
                 const objectJsonPost: PostType = JSON.parse(bodyPost)
                 const dbPost = new DbCrud(objectJsonPost.query)
                 response = await dbPost.Create(objectJsonPost.object)
+                break;
+            case "PUT":
+                const bodyPut = await readBody(e)
+                const objectJsonPut: PutType = JSON.parse(bodyPut)
+                const dbPut = new DbCrud(objectJsonPut.query)
+                if(objectJsonPut.type === "all"){
+                    response = await dbPut.UpdateAllObject(objectJsonPut.index, objectJsonPut.value)
+                }
                 break;
             case "GET":
                 const objectJsonGet: GetType = getQuery(e)

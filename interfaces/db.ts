@@ -9,11 +9,22 @@ interface NewUser {
     cp: number,
     email: string,
     phone: number,
-    created: string,
-    index: string
+    created?: string,
+    index?: string
+}
+
+interface NewSubscription {
+    name: string,
+    description: string,
+    duration: number,
+    price: number,
+    renew: boolean,
+    created?: string,
+    index?: string
 }
 
 export type {
     MethodDb,
-    NewUser
+    NewUser,
+    NewSubscription
 }

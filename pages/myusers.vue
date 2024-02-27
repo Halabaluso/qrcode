@@ -1,6 +1,9 @@
 <template>
     <CommonsBreadcrumb :breads="breads"/>
     <TabsQrTab/>
+    <ModalsGeneralModalSlot :id="1">
+        <SlotsUpdateUser/>
+    </ModalsGeneralModalSlot>
 </template>
 <script lang = "ts" setup>
         const breads = [

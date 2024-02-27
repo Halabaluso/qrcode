@@ -11,6 +11,11 @@
 import type { MainMenu } from "./interfaces/props"
 const menuArray:Array<MainMenu> = [
   {
+    link: "/subscriptions/create",
+    title: "Suscripciones",
+    icon: "eos-icons:subscriptions-created"
+  },
+  {
     link: "/",
     title: "Crear usuarios",
     icon: "material-symbols:frame-person-sharp"

@@ -14,9 +14,18 @@ interface GetType {
     index?: string
 }
 
+interface PutType {
+    type: "one" | "all"
+    query: string,
+    index: string,
+    key?: string,
+    value?: any
+}
+
 
 export {
     PostType,
     DeleteType,
-    GetType
+    GetType,
+    PutType
 }

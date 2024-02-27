@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss', 'nuxt-icon', "notivue/nuxt"],
+  modules: ['@nuxtjs/tailwindcss', 'nuxt-icon', "notivue/nuxt", '@pinia/nuxt'],
   css: [
     'notivue/notifications.css', // Only needed if using built-in notifications
     'notivue/animations.css' // Only needed if using built-in animations

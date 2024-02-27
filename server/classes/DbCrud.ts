@@ -102,7 +102,7 @@ class DbCrud {
         return response
     }
 
-    async Update(index:string, key: string, value: string){
+    async UpdateOneKey(index:string, key: string, value: string){
         const response: GeneralResponse = {
             err: false,
             msg: ""
@@ -110,6 +110,24 @@ class DbCrud {
         const objectUpdate = {} as any
         objectUpdate[key] = value
         await this.db.collection(this.query).doc(index).update(objectUpdate)
+            .then(() => {
+                response.err = false
+                response.msg = "Objecto actualizado"
+            })
+            .catch(() => {
+                response.err = true
+                response.msg = "Objecto no actualizado"
+            })
+
+        return response
+    }
+
+    async UpdateAllObject(index:string, value: any){
+        const response: GeneralResponse = {
+            err: false,
+            msg: ""
+        }
+        await this.db.collection(this.query).doc(index).update(value)
             .then(() => {
                 response.err = false
                 response.msg = "Objecto actualizado"
