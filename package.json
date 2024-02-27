@@ -1,0 +1,30 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
+    "firebase-admin": "^12.0.0",
+    "moment": "^2.30.1",
+    "nanoid": "^5.0.6",
+    "notivue": "^2.2.1",
+    "nuxt": "^3.10.2",
+    "qrcode.vue": "^3.4.1",
+    "rippleui": "^1.12.1",
+    "vue": "^3.4.19",
+    "vue-router": "^4.2.5",
+    "vue-toast-notification": "^3.1.2"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.11.4",
+    "nuxt-icon": "^0.6.8"
+  }
+}
