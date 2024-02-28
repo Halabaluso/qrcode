@@ -5,7 +5,7 @@
                 <CommonsDrawer/>
             </div>
             <div class="navbar-end">
-                <a class="navbar-item font-bold text-lg">User QR</a>
+                <img src="../../img/logo.png" alt="" class="w-36">
             </div>
         </div>
     </header>

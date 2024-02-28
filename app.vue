@@ -45,7 +45,6 @@ const menu:Array<Navs> = [
 ]
 const generalTitle = "User QR"
 provide(/* key */ 'menus', /* value */ menu)
-provide("title", generalTitle)
 
 onMounted(() => {
   if(!authStore.auth){

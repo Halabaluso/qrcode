@@ -3,7 +3,7 @@
         <form @submit.prevent="GoHome" action="">
             <div class="mx-auto flex w-full max-w-sm flex-col gap-6">
                 <div class="flex flex-col items-center">
-                    <h1 class="text-3xl font-semibold">User QR</h1>
+                    <img src="../../img/logo.png" alt="" class="w-52">
                     <p class="text-sm">Introduzca su cuenta</p>
                 </div>
                 <div class="form-group">

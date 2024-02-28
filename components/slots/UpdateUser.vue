@@ -59,7 +59,6 @@
 <script setup lang="ts">
     import { useVuelidate } from '@vuelidate/core'
     import { required, email, numeric } from '@vuelidate/validators'
-    import { DbConnect } from "../../classes/DbConnect"
     import { User } from "../../classes/User"
     import { user } from "../../stores/user"
 

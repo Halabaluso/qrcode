@@ -8,12 +8,12 @@
         <div class="drawer-content pt-10 flex flex-col h-full">
             <label for="main-menu" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
             <div>
-                <h2 class="text-xl font-medium mb-5">{{ title }}</h2>
+                <img src="../../img/logo.png" alt="" class="w-44 m-auto mb-5">
                 <CommonsNav/>
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-const title: string = inject('title') as string
+const img: string = inject('img') as string
 </script>
