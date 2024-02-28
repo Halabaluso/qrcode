@@ -1,5 +1,5 @@
 <template>
-  <qrcode-vue :value="state.value" :size="300" :level="level" :render-as="renderAs" />
+  <qrcode-vue :value="state.value" :size="300" :level="level" :render-as="renderAs" class="rounded-lg"/>
 </template>
 <script setup lang="ts">
 import QrcodeVue from 'qrcode.vue'

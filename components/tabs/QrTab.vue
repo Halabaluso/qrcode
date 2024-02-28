@@ -3,11 +3,6 @@
 	<h1 class="font-bold text-xl text-primary mb-5">
 		<Icon name="lucide:qr-code" class="mr-2" />Mis usuarios
 	</h1>
-	<!--Tab actions-->
-	<select class="select mb-5">
-		<option selected disabled>Acciones</option>
-		<option>Borrar</option>
-	</select>
 	<!--Tab users show-->
 	<div class="flex w-full overflow-x-auto">
 		<table class="table-hover table">
@@ -21,9 +16,9 @@
 			</thead>
 			<tbody>
 				<template v-for="(user, i) in state.arrayUsers" :key="i">
-					<tr v-if="i >= state.pageStart && i < (state.pageStart + state.limitPage)" >
+					<tr v-if="i >= state.pageStart && i < (state.pageStart + state.limitPage)">
 						<th>
-							<input type="checkbox" class="checkbox-primary checkbox" />
+							{{ i + 1 }}
 						</th>
 						<td>{{ user.name }} {{ user.lastname }}</td>
 						<td>{{ user.email }}</td>
@@ -32,10 +27,10 @@
 								<label @click="GetIndexQr(user.index as string)" for="qr-modal" class="btn btn-primary">
 									<Icon name="material-symbols:qr-code" class="text-xl" />
 								</label>
-								<label @click="userStore.user = user" for = "general-modal-1" class="btn">
+								<label @click="userStore.user = user" for="general-modal-1" class="btn">
 									<Icon name="material-symbols:directory-sync" />
 								</label>
-								<label for = "general-modal" class="btn btn-error">
+								<label for="general-modal" class="btn btn-error">
 									<Icon name="material-symbols:delete-rounded" />
 								</label>
 							</div>
@@ -65,7 +60,8 @@
 	</div>
 	<!--Modal-->
 	<ModalsQrShow />
-	<ModalsGeneralModal/>
+	<ModalsGeneralModal :title="state.deleteModalTitle" :msg="state.deleteModalMsg" :buttonTitle="state.deleteButtonTitle"
+		:action="DeleteRow" />
 </template>
 <script setup lang = "ts">
 import type { GeneralResponse } from "../../server/interfaces/dbresponses"
@@ -82,8 +78,9 @@ const state = reactive({
 	limitPage: 10,
 	pageStart: 0,
 
-	titleModal: "",
-	msgModal: ""
+	deleteModalTitle: "Eliminar usuario" as string,
+	deleteModalMsg: "¿Estás seguro de que deseas eliminar este usuario?" as string,
+	deleteButtonTitle: "Si, eliminar"
 })
 
 const userIndex = ref("")
@@ -94,12 +91,15 @@ const userStore = user()
 
 //On mounted component and props
 onMounted(async () => {
+	const load = push.load("Cargando...")
 	const connectDb = await GetUsersDb()
 	if (!connectDb.err) {
 		state.arrayUsers = connectDb.msgObject as Array<NewUser>
 		push.success("Usuarios cargados correctamente.")
+		load.destroy()
 	} else {
 		push.success("Error al cargar usuarios.")
+		load.destroy()
 	}
 })
 
@@ -118,15 +118,36 @@ const GetIndexQr = (index: string) => {
 
 const Pagination = (type: "back" | "next") => {
 	if (type === "back") {
-		if(state.page > 1){
+		if (state.page > 1) {
 			state.page -= 1
 			state.pageStart -= state.limitPage
 		}
 	} else {
-		if((state.arrayUsers.length - state.limitPage) > (state.pageStart)){
+		if ((state.arrayUsers.length - state.limitPage) > (state.pageStart)) {
 			state.page += 1
 			state.pageStart += state.limitPage
 		}
 	}
 }
+
+const DeleteRow = async () => {
+	const load = push.load("Cargando")
+	const response = await state.user.DeleteUserFromDb(userStore.user.index as string)
+	if (!response.err) {
+		push.success("Suscripción borrada con éxito.")
+		const connectDb = await GetUsersDb()
+		if (!connectDb.err) {
+			state.arrayUsers = connectDb.msgObject as Array<NewUser>
+			push.success("Usuarios cargados correctamente.")
+			load.destroy()
+		} else {
+			push.success("Error al cargar usuarios.")
+			load.destroy()
+		}
+	} else {
+		push.error("Problema al borrar suscripción.")
+		load.destroy()
+	}
+}
+
 </script>

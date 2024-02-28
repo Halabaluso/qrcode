@@ -7,7 +7,7 @@
                 <h2 class="text-xl font-bold text-primary"><Icon name = "ion:qr-scanner" class = "mr-2"/>Qr de usuario</h2>
                 <label for="qr-modal" class="btn btn-sm btn-circle btn-ghost ">✕</label>
             </div>
-            <div class = "border-4 border-primary border-dashed p-5">
+            <div class = "border-4 border-primary border-dashed p-5 rounded-xl">
                 <CommonsQrComponent/>
             </div>
             <div class="flex justify-end gap-3">
