@@ -67,7 +67,7 @@
         user: new User()
     })
 
-    const db = new DbConnect("/api/rest", "POST")
+    
     const userStore = user()
     const UpdateUser = async () => {
         if(await ValidateForm()){

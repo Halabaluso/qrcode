@@ -9,6 +9,11 @@ interface MainMenu {
     link: string
 }
 
+interface Navs {
+    title: string,
+    navs: Array<MainMenu>
+}
+
 interface Tabs {
     title: string,
     icon: string,
@@ -25,5 +30,6 @@ export type{
     Breadcrumbs,
     MainMenu,
     Tabs,
-    HeaderTable
+    HeaderTable,
+    Navs
 }

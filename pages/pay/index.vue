@@ -1,3 +1,3 @@
 <template>
-    Hola :D
+    <p>Próximamente</p>
 </template>

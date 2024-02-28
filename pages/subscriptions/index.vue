@@ -2,35 +2,23 @@
     <section class="p-5">
         <CommonsTabs :arrayTabs="arrayTabs" />
         <CommonsBreadcrumb :breads="breads" />
-        <TabsSubscriptionTab />
+        <FormsCreateSuscription />
     </section>
-    <ModalsGeneralModalSlot :id="2">
-        <SlotsUpdateSubscription />
-    </ModalsGeneralModalSlot>
 </template>
 <script setup lang="ts">
-import { Subscription } from "~/classes/Susbscription";
-import type { Tabs, HeaderTable } from "../../interfaces/props"
-import type { NewSubscription } from "../../interfaces/db"
-
-interface SimpleItem {
-    nombre: string,
-    dias: number,
-    renovacion: string
-}
-
+import type { Tabs } from "../../interfaces/props"
 const arrayTabs: Array<Tabs> = [
     {
         title: "Crear suscripción",
         link: "/subscriptions/create",
         icon: "material-symbols:add-circle",
-        active: false
+        active: true
     },
     {
         title: "Mis suscripciones",
         link: "/subscriptions/table",
         icon: "eos-icons:product-subscriptions",
-        active: true
+        active: false
     }
 ]
 
@@ -44,9 +32,4 @@ const breads = [
         icon: "pixelarticons:subscriptions"
     }
 ]
-
-
-
-
-
 </script>
