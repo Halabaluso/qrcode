@@ -4,6 +4,11 @@
 An open source project to generate users and identify them with a QR code.
 
 
+## Demo
+
+https://qrcodeconnect.netlify.app/
+
+
 ## Important settings
 
 This project uses Firestore. A firebase NoSQL database.
