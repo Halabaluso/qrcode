@@ -14,7 +14,7 @@ class Subscription {
     created: string
 
     constructor(name?: string, description?: string, duration?: number, price?: number, renew?: boolean, created?: string)
-    constructor(name: string, description: string, duration: number, price: number, renew: boolean, created: string){
+    constructor(name: string, description: string, duration: number, price: number, renew: boolean, created: string) {
         this.name = name
         this.description = description
         this.duration = duration
@@ -23,8 +23,8 @@ class Subscription {
         this.created = created
     }
 
-    GetSubscription(){
-        const object:NewSubscription = {
+    GetSubscription(): NewSubscription {
+        const object: NewSubscription = {
             name: this.name,
             description: this.description,
             duration: this.duration,
@@ -35,7 +35,18 @@ class Subscription {
         return object
     }
 
-    SetSubscription(name: string, description: string, duration: number, price: number, renew: boolean){
+    async GetSubscriptionsDb(url: string, method: MethodDb): Promise<GeneralResponse> {
+        const db = new DbConnect(url, method)
+        const object: GetType = {
+            query: "subscriptions",
+            type: "all",
+        }
+        await db.Connect(object)
+        const response: GeneralResponse = await db.GetResponse()
+        return response
+    }
+
+    SetSubscription(name: string, description: string, duration: number, price: number, renew: boolean) {
         this.name = name
         this.description = description
         this.duration = duration
@@ -43,20 +54,9 @@ class Subscription {
         this.renew = renew
     }
 
-    async GetSubscriptionsDb(url: string, method: MethodDb){
-        const db = new DbConnect(url, method)
-        const object:GetType = {
-            query: "subscriptions",
-            type: "all",
-        } 
-        await db.Connect(object)
-        const response:GeneralResponse = await db.GetResponse()
-        return response
-    }
-
-    async SetSubscriptionToDb(){
+    async SetSubscriptionToDb(): Promise<GeneralResponse> {
         const db = new DbConnect("/api/rest", "POST")
-        const subscription:NewSubscription = {
+        const subscription: NewSubscription = {
             name: this.name,
             description: this.description,
             duration: this.duration,
@@ -64,7 +64,7 @@ class Subscription {
             renew: this.renew,
             created: moment().format("DD-MM-YYYY, HH:mm")
         }
-        const object:PostType = {
+        const object: PostType = {
             query: "subscriptions",
             object: subscription
         }
@@ -73,7 +73,7 @@ class Subscription {
         return response
     }
 
-    async UpdateSubscriptionToDb(url:string, query: string, index: string, value: any){
+    async UpdateSubscriptionToDb(url: string, query: string, index: string, value: any): Promise<GeneralResponse> {
         const object: PutType = {
             query: query,
             index: index,
@@ -82,13 +82,13 @@ class Subscription {
         }
         const db = new DbConnect(url, "PUT")
         await db.Connect(object)
-        const response:GeneralResponse = await db.GetResponse()
+        const response: GeneralResponse = await db.GetResponse()
         return response
     }
 
-    async DeleteSubscriptionFromDb(index:string){
+    async DeleteSubscriptionFromDb(index: string): Promise<GeneralResponse> {
         const db = new DbConnect("/api/rest", "DELETE")
-        const object:DeleteType = {
+        const object: DeleteType = {
             query: "subscriptions",
             index: index
         }

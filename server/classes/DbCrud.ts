@@ -7,16 +7,16 @@ class DbCrud {
     db = db
     query: string
 
-    constructor(query:string){
+    constructor(query: string) {
         this.query = query
     }
 
-    async Create(object: any){
+    async Create(object: any): Promise<GeneralResponse> {
         const response: GeneralResponse = {
             err: false,
             msg: ""
         }
-        
+
         const id = nanoid()
         object.index = id
         await this.db.collection(this.query).doc(id).set(object)
@@ -32,18 +32,18 @@ class DbCrud {
         return response
     }
 
-    async ReadOne(index: string){
+    async ReadOne(index: string): Promise<GeneralResponse> {
         const response: GeneralResponse = {
             err: false,
             msg: ""
         }
         await this.db.collection(this.query).doc(index).get()
             .then((data) => {
-                if(data.exists){
+                if (data.exists) {
                     response.err = false
                     response.msg = "Objecto encontrado"
                     response.msgObject = data.data()
-                }else{
+                } else {
                     response.err = true
                     response.msg = "No hay datos"
                 }
@@ -56,14 +56,14 @@ class DbCrud {
         return response
     }
 
-    async ReadAll(){
+    async ReadAll(): Promise<GeneralResponse> {
         const response: GeneralResponse = {
             err: false,
             msg: ""
         }
         await this.db.collection(this.query).get()
             .then((data) => {
-                if(!data.empty){
+                if (!data.empty) {
                     response.err = false
                     response.msg = "Objecto encontrado"
                     const arrayDb = [] as Array<any>
@@ -71,7 +71,7 @@ class DbCrud {
                         arrayDb.push(element.data())
                     })
                     response.msgObject = arrayDb
-                }else{
+                } else {
                     response.err = true
                     response.msg = "Ningún objeto encontrado."
                 }
@@ -84,7 +84,7 @@ class DbCrud {
         return response
     }
 
-    async Delete(index:string){
+    async Delete(index: string): Promise<GeneralResponse> {
         const response: GeneralResponse = {
             err: false,
             msg: ""
@@ -102,7 +102,7 @@ class DbCrud {
         return response
     }
 
-    async UpdateOneKey(index:string, key: string, value: string){
+    async UpdateOneKey(index: string, key: string, value: string): Promise<GeneralResponse> {
         const response: GeneralResponse = {
             err: false,
             msg: ""
@@ -122,7 +122,7 @@ class DbCrud {
         return response
     }
 
-    async UpdateAllObject(index:string, value: any){
+    async UpdateAllObject(index: string, value: any): Promise<GeneralResponse> {
         const response: GeneralResponse = {
             err: false,
             msg: ""
@@ -141,6 +141,6 @@ class DbCrud {
     }
 }
 
-export{
+export {
     DbCrud
 }

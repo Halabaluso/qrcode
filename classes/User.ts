@@ -1,5 +1,5 @@
 import type { NewUser } from "../interfaces/db"
-import type { GetType,PostType,PutType,DeleteType } from "../server/interfaces/calltypes"
+import type { GetType, PostType, PutType, DeleteType } from "../server/interfaces/calltypes"
 import type { GeneralResponse } from "../server/interfaces/dbresponses"
 import { DbConnect } from "../classes/DbConnect"
 import moment from "moment"
@@ -16,8 +16,8 @@ class User {
     phone: number
     created: string
 
-    constructor(name?: string, lastname?: string, age?: number, direction?: string, place?: string, cp?: number, email?:string, phone?: number, created?: string)
-    constructor(name: string, lastname: string, age: number, direction: string, place: string, cp: number, email:string, phone: number, created: string){
+    constructor(name?: string, lastname?: string, age?: number, direction?: string, place?: string, cp?: number, email?: string, phone?: number, created?: string)
+    constructor(name: string, lastname: string, age: number, direction: string, place: string, cp: number, email: string, phone: number, created: string) {
         this.name = name
         this.lastname = lastname
         this.age = age
@@ -29,8 +29,8 @@ class User {
         this.created = created
     }
 
-    GetUser(){
-        const user:NewUser = {
+    GetUser(): NewUser {
+        const user: NewUser = {
             name: this.name,
             lastname: this.lastname,
             age: this.age,
@@ -43,18 +43,18 @@ class User {
         return user
     }
 
-    async GetUsersFromDb(url: string, method: MethodDb): Promise<GeneralResponse>{
+    async GetUsersFromDb(url: string, method: MethodDb): Promise<GeneralResponse> {
         const db = new DbConnect(url, method)
-        const object:GetType = {
+        const object: GetType = {
             query: "users",
             type: "all",
-        } 
+        }
         await db.Connect(object)
-        const response:GeneralResponse = await db.GetResponse()
+        const response: GeneralResponse = await db.GetResponse()
         return response
     }
 
-    SetUser(name: string, lastname: string, age: number, direction: string, place: string, cp: number, email:string, phone: number, created: string){
+    SetUser(name: string, lastname: string, age: number, direction: string, place: string, cp: number, email: string, phone: number, created: string) {
         this.name = name
         this.lastname = lastname
         this.age = age
@@ -66,9 +66,9 @@ class User {
         this.created = created
     }
 
-    async SetUserToDb(){
+    async SetUserToDb(): Promise<GeneralResponse> {
         const db = new DbConnect("/api/rest", "POST")
-        const user:NewUser = {
+        const user: NewUser = {
             name: this.name,
             lastname: this.lastname,
             age: this.age,
@@ -79,7 +79,7 @@ class User {
             phone: this.phone,
             created: moment().format("DD-MM-YYYY, HH:mm")
         }
-        const object:PostType = {
+        const object: PostType = {
             query: "users",
             object: user
         }
@@ -88,7 +88,7 @@ class User {
         return response
     }
 
-    async UpdateUserToDb(url:string, query: string, index: string, value: any){
+    async UpdateUserToDb(url: string, query: string, index: string, value: any): Promise<GeneralResponse> {
         const object: PutType = {
             query: query,
             index: index,
@@ -97,13 +97,13 @@ class User {
         }
         const db = new DbConnect(url, "PUT")
         await db.Connect(object)
-        const response:GeneralResponse = await db.GetResponse()
+        const response: GeneralResponse = await db.GetResponse()
         return response
     }
 
-    async DeleteUserFromDb(index:string){
+    async DeleteUserFromDb(index: string): Promise<GeneralResponse> {
         const db = new DbConnect("/api/rest", "DELETE")
-        const object:DeleteType = {
+        const object: DeleteType = {
             query: "users",
             index: index
         }
