@@ -1,75 +1,62 @@
-# Nuxt 3 Minimal Starter
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# CodeConnect
 
-## Setup
+An open source project to generate users and identify them with a QR code.
 
-Make sure to install the dependencies:
 
-```bash
-# npm
-npm install
+## Important settings
 
-# pnpm
-pnpm install
+This project uses Firestore. A firebase NoSQL database.
 
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+To run this project, you need to configure a Firestore database and add the following parameters provided by firebase in the .env of the project.
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+  type = "..."
+  project_id = "..."
+  private_key_id = "..."
+  private_key = "..."
+  client_email = "..."
+  client_id = "..."
+  auth_uri = "..."
+  token_uri = "..."
+  auth_provider_x509_cert_url = "..."
+  client_x509_cert_url = "..."
+  universe_domain = "..."
 ```
+## Run Locally
 
-## Production
-
-Build the application for production:
+Clone the project
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+  git clone https://github.com/Halabaluso/qrcode.git
 ```
 
-Locally preview production build:
+Go to the project directory
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+  cd my-project
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run dev
+```
+
+
+## Deployment
+
+To deploy this project run
+
+```bash
+  npm run build
+```
+
+
+

@@ -10,7 +10,7 @@ import type { Tabs } from "../../interfaces/props"
 const arrayTabs: Array<Tabs> = [
     {
         title: "Crear suscripción",
-        link: "/subscriptions/create",
+        link: "/subscriptions",
         icon: "material-symbols:add-circle",
         active: true
     },
