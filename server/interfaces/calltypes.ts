@@ -1,5 +1,8 @@
 interface PostType {
+    type?: "double"
     query: string,
+    idQuery?: string,
+    query1?: string,
     object: object
 }
 

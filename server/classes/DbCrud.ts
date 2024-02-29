@@ -32,6 +32,29 @@ class DbCrud {
         return response
     }
 
+    async CreateInDoubleCollection(doubleQuery: string, doubleId: string, object: any): Promise<GeneralResponse> {
+        const response: GeneralResponse = {
+            err: false,
+            msg: ""
+        }
+
+        const id = nanoid()
+        object.index = id
+        await this.db.collection(this.query).doc(doubleId).collection(doubleQuery).doc(id).set(object)
+            .then(() => {
+                response.err = false
+                response.msg = "Objecto creado"
+            })
+            .catch(() => {
+                response.err = true
+                response.msg = "Objecto no creado"
+            })
+
+        return response
+    }
+
+    
+
     async ReadOne(index: string): Promise<GeneralResponse> {
         const response: GeneralResponse = {
             err: false,

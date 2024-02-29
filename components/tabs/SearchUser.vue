@@ -1,7 +1,7 @@
 <template>
 	<!--h1 title component-->
 	<h1 class="font-bold text-xl text-primary mb-5">
-		<Icon name="lucide:qr-code" class="mr-2" />Mis usuarios
+		<Icon name="material-symbols:person-search" class="mr-2" />Usuarios encontrados
 	</h1>
 	<!--Tab users show-->
 	<div class="flex w-full overflow-x-auto">
@@ -24,7 +24,7 @@
 						<td>{{ user.email }}</td>
 						<td>
 							<div class="flex flex-row items-center gap-2">
-                                <button>Acciones</button>
+                                <label @click="userStore.user = user" for = "general-modal-3" class="btn btn-primary"><Icon name = "ic:baseline-payment" class="text-lg"/></label>
 							</div>
 						</td>
 					</tr>
@@ -32,6 +32,8 @@
 			</tbody>
 		</table>
 	</div>
+    <!--Alert-->
+    <CommonsAlerts :title="state.titleAlert" :msg="state.msgAlert" :show="state.showAlert" :type="state.typeAlert" class="mt-5"/>
 	<!--Pagination Tab-->
 	<div class="pagination mt-5">
 		<button @click="Pagination(`back`)" class="btn">
@@ -57,8 +59,6 @@
     -->
 </template>
 <script setup lang = "ts">
-import type { GeneralResponse } from "../../server/interfaces/dbresponses"
-import type { NewUser } from "../../interfaces/db"
 import { User } from "../../classes/User"
 import { user } from "../../stores/user"
 
@@ -72,25 +72,18 @@ const state = reactive({
 
 	deleteModalTitle: "Eliminar usuario" as string,
 	deleteModalMsg: "¿Estás seguro de que deseas eliminar este usuario?" as string,
-	deleteButtonTitle: "Si, eliminar"
+	deleteButtonTitle: "Si, eliminar",
+
+    titleAlert : "No hay usuarios.",
+	msgAlert : "No se ha encontrado o buscado ningún usuario.",
+	showAlert: true,
+	typeAlert: "info"
 })
 
 const userIndex = ref("")
 
 //Store pinia variables
 const userStore = user()
-
-
-//On mounted component and props
-
-
-
-//ComponentsFunctions
-
-
-const GetIndexQr = (index: string) => {
-	userIndex.value = index
-}
 
 const Pagination = (type: "back" | "next") => {
 	if (type === "back") {
@@ -105,6 +98,24 @@ const Pagination = (type: "back" | "next") => {
 		}
 	}
 }
+
+onMounted(() => {
+    if(userStore.searchUser.length > 0){
+        state.showAlert = false
+    }else{
+        state.showAlert = true
+    }
+})
+
+watch(userStore, () => {
+    console.log(userStore.searchUser.length)
+    if(userStore.searchUser.length > 0){
+        state.showAlert = false
+    }else{
+        state.showAlert = true
+    }
+})
+
 
 
 

@@ -3,6 +3,9 @@
         <CommonsBreadcrumb :breads="breads" />
         <FormsSearch />
         <TabsSearchUser/>
+        <ModalsGeneralModalSlot :id="3">
+            <SlotsCreatePayment/>
+        </ModalsGeneralModalSlot>
     </section>
 </template>
 <script lang="ts" setup>

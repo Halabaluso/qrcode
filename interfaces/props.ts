@@ -26,10 +26,13 @@ interface HeaderTable {
     icon?: string
 }
 
+type PayMethod = "bizum" | "efectivo" | "tarjeta" | "transferencia bancaria"
+
 export type{
     Breadcrumbs,
     MainMenu,
     Tabs,
     HeaderTable,
-    Navs
+    Navs,
+    PayMethod
 }
