@@ -1,6 +1,8 @@
 <template>
     <form @submit.prevent="UpdateUser()">
-        <h1 class="font-bold text-xl text-primary mb-5"><Icon name = "material-symbols:person-add" class="mr-2"/>Crear nuevo usuario</h1>
+        <h1 class="font-bold text-xl text-primary mb-5">
+            <Icon name="material-symbols:person-add" class="mr-2" />Crear nuevo usuario
+        </h1>
         <div class="grid grid-cols-2 md:gap-5 gap-3">
             <div class="form-field">
                 <label class="form-label">
@@ -52,48 +54,52 @@
             </div>
         </div>
         <div>
-            <button class="btn btn-primary btn-block mt-5">Actualizar usuario <Icon name = "material-symbols:add-task" class="ml-2 text-lg"/></button>
+            <button type="submit" class="w-full">
+                <label for="general-modal-1" class="btn btn-primary btn-block mt-5">Actualizar usuario
+                    <Icon name="material-symbols:add-task" class="ml-2 text-lg" />
+                </label>
+            </button>
         </div>
     </form>
 </template>
 <script setup lang="ts">
-    import { useVuelidate } from '@vuelidate/core'
-    import { required, email, numeric } from '@vuelidate/validators'
-    import { User } from "../../classes/User"
-    import { user } from "../../stores/user"
+import { useVuelidate } from '@vuelidate/core'
+import { required, email, numeric } from '@vuelidate/validators'
+import { User } from "../../classes/User"
+import { user } from "../../stores/user"
 
-    const state = reactive({
-        user: new User()
-    })
+const state = reactive({
+    user: new User()
+})
 
-    
-    const userStore = user()
-    const UpdateUser = async () => {
-        if(await ValidateForm()){
-            const response = await state.user.UpdateUserToDb("/api/rest","users", userStore.user.index as string, userStore.user)
-            if(!response.err){
-                push.success("Usuario actualizado.")
-            }else{
-                push.error("Error al actualizar usuario.")
-            }
-        }else{
-            push.warning("Complete bien los campos.")
+
+const userStore = user()
+const UpdateUser = async () => {
+    if (await ValidateForm()) {
+        const response = await state.user.UpdateUserToDb("/api/rest", "users", userStore.user.index as string, userStore.user)
+        if (!response.err) {
+            push.success("Usuario actualizado.")
+        } else {
+            push.error("Error al actualizar usuario.")
         }
+    } else {
+        push.warning("Complete bien los campos.")
     }
+}
 
-    const ValidateForm = async () => {
-        const rules = {
-            name: {required},
-            lastname: {required},
-            age: {numeric, required},
-            direction: {required},
-            place: {required},
-            cp: {numeric, required},
-            email: {required},
-            phone:{numeric,required},
-            created: {}
-        }
-        const v$ = useVuelidate(rules, userStore.user as any)
-        return await v$.value.$validate()
+const ValidateForm = async () => {
+    const rules = {
+        name: { required },
+        lastname: { required },
+        age: { numeric, required },
+        direction: { required },
+        place: { required },
+        cp: { numeric, required },
+        email: { required },
+        phone: { numeric, required },
+        created: {}
     }
+    const v$ = useVuelidate(rules, userStore.user as any)
+    return await v$.value.$validate()
+}
 </script>

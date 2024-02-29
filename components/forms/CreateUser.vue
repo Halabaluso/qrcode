@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="CreateUser">
+    <form ref="createUser" @submit.prevent="CreateUser">
         <h1 class="font-bold text-xl text-primary mb-5"><Icon name = "material-symbols:person-add" class="mr-2"/>Crear nuevo usuario</h1>
         <div class="grid grid-cols-2 md:gap-5 gap-3">
             <div class="form-field">
@@ -73,6 +73,7 @@
             const response = await state.user.SetUserToDb()
             if(!response.err){
                 push.success("Usuario añadido a la base de datos.")
+                ClearForm()
             }else{
                 push.error("Error al conectar con la base de datos.")
             }
@@ -96,6 +97,17 @@
         }
         const v$ = useVuelidate(rules, state.user.GetUser() as any)
         return await v$.value.$validate()
+    }
+
+    const ClearForm = () => {
+        state.user.name = ""
+        state.user.age = 0
+        state.user.cp = 0
+        state.user.direction = ""
+        state.user.email = ""
+        state.user.lastname = ""
+        state.user.phone = 0
+        state.user.place = ""
     }
     
 </script>

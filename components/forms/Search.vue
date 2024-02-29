@@ -2,7 +2,7 @@
 	<div class="grid grid-rows md:grid-cols-2 gap-2 mb-5">
 		<div>
 			<label>Buscador</label>
-			<form @submit.prevent="Search(state.where)" class="form-control relative w-full">
+			<form ref="searchForm" @submit.prevent="Search(state.where)" class="form-control relative w-full">
 				<input v-model="state.searchName" type="text" class="input input-lg max-w-full pl-10"
 					placeholder="Buscar usuario" />
 
@@ -52,7 +52,7 @@ const Search = async (where: "name" | "email") => {
 			default:
 				break;
 		}
-	}else{
+	} else {
 		userStore.searchUser = []
 		push.warning("Para buscar debe de contener más de 4 letras.")
 	}

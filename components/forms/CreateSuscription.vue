@@ -20,8 +20,7 @@
                 <label class="form-label">
                     Duración (días)<span class="dot dot-error"></span>
                 </label>
-                <input v-model="state.subscription.duration" placeholder="Días" type="text"
-                    class="input max-w-full" />
+                <input v-model="state.subscription.duration" placeholder="Días" type="text" class="input max-w-full" />
             </div>
             <div class="form-field">
                 <label class="form-label">
@@ -38,7 +37,8 @@
             <label class="form-label">
                 Descripción<span class="dot dot-error"></span>
             </label>
-            <textarea v-model="state.subscription.description" class="textarea-block textarea" placeholder="Descripción de la suscripción" />
+            <textarea v-model="state.subscription.description" class="textarea-block textarea"
+                placeholder="Descripción de la suscripción" />
         </div>
         <div>
             <button class="btn btn-primary btn-block mt-5">Crear plan
@@ -57,29 +57,38 @@ const state = reactive({
 })
 
 const CreateSubscription = async () => {
-    if(await ValidateForm()){
+    if (await ValidateForm()) {
         const response = await state.subscription.SetSubscriptionToDb()
-        if(!response.err){
+        if (!response.err) {
             push.success("Suscripción creada")
-        }else{
+            ClearForm()
+        } else {
             push.error("Error al conectar con servidor.")
         }
-    }else{
+    } else {
         push.warning("Rellene bien los campos.")
     }
 }
 
 const ValidateForm = async () => {
-        const rules = {
-            name: {required},
-            description: {required},
-            duration: {numeric, required},
-            price: {numeric, required},
-            renew: { required},
-            created: {}
-        }
-        const v$ = useVuelidate(rules, state.subscription.GetSubscription() as any)
-        return await v$.value.$validate()
+    const rules = {
+        name: { required },
+        description: { required },
+        duration: { numeric, required },
+        price: { numeric, required },
+        renew: { required },
+        created: {}
     }
+    const v$ = useVuelidate(rules, state.subscription.GetSubscription() as any)
+    return await v$.value.$validate()
+}
+
+const ClearForm = () => {
+    state.subscription.name = ""
+    state.subscription.description = ""
+    state.subscription.price = 0
+    state.subscription.renew = false,
+    state.subscription.duration = 0
+}
 
 </script>

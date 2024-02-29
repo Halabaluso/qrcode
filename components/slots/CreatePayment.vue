@@ -33,8 +33,10 @@
             </div>
         </div>
         <div>
-            <button class="btn btn-primary btn-block mt-5">Aceptar pago
-                <Icon name="material-symbols:add-task" class="ml-2 text-lg" />
+            <button type="submit" class="w-full">
+                <label for="general-modal-3" class="btn btn-primary btn-block mt-5">Aceptar pago
+                    <Icon name="material-symbols:add-task" class="ml-2 text-lg" />
+                </label>
             </button>
         </div>
     </form>
@@ -92,11 +94,11 @@ const SetPayInUserCollection = async () => {
         const response: GeneralResponse = await state.pay.SetPaymentToDb("/api/rest", userStore.user.index as string, subscriptionData)
         if (!response.err) {
             push.success("Pago agregado con éxito.")
-            loading.destroy()
+            loading.clear()
         } else {
             console.log(response)
             push.error("Error al agregar el pago.")
-            loading.destroy()
+            loading.clear()
         }
     } else {
         const object: NewSubscription = {

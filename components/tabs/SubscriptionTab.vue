@@ -67,7 +67,6 @@
 </template>
 <script setup lang = "ts">
 import type { NewSubscription } from "~/interfaces/db";
-import type { HeaderTable } from "../../interfaces/props"
 import { subscription } from "../../stores/suscription"
 import { Subscription } from "~/classes/Susbscription";
 

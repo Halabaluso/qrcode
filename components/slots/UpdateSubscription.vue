@@ -8,13 +8,15 @@
                 <label class="form-label">
                     Nombre<span class="dot dot-error"></span>
                 </label>
-                <input v-model="subscriptionStore.subscription.name" placeholder="Nombre" type="text" class="input max-w-full" />
+                <input v-model="subscriptionStore.subscription.name" placeholder="Nombre" type="text"
+                    class="input max-w-full" />
             </div>
             <div class="form-field">
                 <label class="form-label">
                     Precio (en €)<span class="dot dot-error"></span>
                 </label>
-                <input v-model="subscriptionStore.subscription.price" placeholder="Precio" type="number" class="input max-w-full" />
+                <input v-model="subscriptionStore.subscription.price" placeholder="Precio" type="number"
+                    class="input max-w-full" />
             </div>
             <div class="form-field">
                 <label class="form-label">
@@ -38,11 +40,14 @@
             <label class="form-label">
                 Descripción<span class="dot dot-error"></span>
             </label>
-            <textarea v-model="subscriptionStore.subscription.description" class="textarea-block textarea" placeholder="Descripción de la suscripción" />
+            <textarea v-model="subscriptionStore.subscription.description" class="textarea-block textarea"
+                placeholder="Descripción de la suscripción" />
         </div>
         <div>
-            <button class="btn btn-primary btn-block mt-5">Crear plan
-                <Icon name="material-symbols:add-task" class="ml-2 text-lg" />
+            <button type="submit" class="w-full">
+                <label for="general-modal-2" class="btn btn-primary btn-block mt-5">Crear plan
+                    <Icon name="material-symbols:add-task" class="ml-2 text-lg" />
+                </label>
             </button>
         </div>
     </form>
@@ -60,29 +65,29 @@ const state = reactive({
 const subscriptionStore = subscription()
 
 const UpdateSubscription = async () => {
-    if(await ValidateForm()){
-        const response = await state.subscription.UpdateSubscriptionToDb("/api/rest","subscriptions", subscriptionStore.subscription.index as string, subscriptionStore.subscription)
-        if(!response.err){
+    if (await ValidateForm()) {
+        const response = await state.subscription.UpdateSubscriptionToDb("/api/rest", "subscriptions", subscriptionStore.subscription.index as string, subscriptionStore.subscription)
+        if (!response.err) {
             push.success("Suscripción creada")
-        }else{
+        } else {
             push.error("Error al conectar con servidor.")
         }
-    }else{
+    } else {
         push.warning("Rellene bien los campos.")
     }
 }
 
 const ValidateForm = async () => {
-        const rules = {
-            name: {required},
-            description: {required},
-            duration: {numeric, required},
-            price: {numeric, required},
-            renew: { required},
-            created: {}
-        }
-        const v$ = useVuelidate(rules, subscriptionStore.subscription as any)
-        return await v$.value.$validate()
+    const rules = {
+        name: { required },
+        description: { required },
+        duration: { numeric, required },
+        price: { numeric, required },
+        renew: { required },
+        created: {}
     }
+    const v$ = useVuelidate(rules, subscriptionStore.subscription as any)
+    return await v$.value.$validate()
+}
 
 </script>
