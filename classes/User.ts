@@ -69,13 +69,13 @@ class User {
     async SetUserToDb(): Promise<GeneralResponse> {
         const db = new DbConnect("/api/rest", "POST")
         const user: NewUser = {
-            name: this.name,
-            lastname: this.lastname,
+            name: this.name.toUpperCase(),
+            lastname: this.lastname.toUpperCase(),
             age: this.age,
             direction: this.direction,
             place: this.place,
             cp: this.cp,
-            email: this.email,
+            email: this.email.toLowerCase(),
             phone: this.phone,
             created: moment().format("DD-MM-YYYY, HH:mm")
         }
@@ -106,6 +106,19 @@ class User {
         const object: DeleteType = {
             query: "users",
             index: index
+        }
+        await db.Connect(object)
+        const response = await db.GetResponse()
+        return response
+    }
+
+    async SearchUserFromDb(key: string, value: string): Promise<GeneralResponse> {
+        const db = new DbConnect("/api/rest", "GET")
+        const object: GetType = {
+            query: "users",
+            type: "search",
+            key: key,
+            value: value
         }
         await db.Connect(object)
         const response = await db.GetResponse()

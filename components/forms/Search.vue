@@ -1,12 +1,50 @@
 <template>
-    	<div class="form-control relative w-full">
-		<input type="email" class="input input-lg max-w-full pl-10" placeholder="Enter email" />
+	<div class="grid grid-rows-2 md:grid-cols-2 gap-2">
+		<div>
+			<label>Buscador</label>
+			<form @submit.prevent="Search(state.where)" class="form-control relative w-full">
+				<input v-model="state.searchName" type="text" class="input input-lg max-w-full pl-10"
+					placeholder="Buscar usuario" />
 
-		<span class="absolute inset-y-0 left-3 inline-flex items-center">
-			<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-content3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-			</svg>
-		</span>
+				<span class="absolute inset-y-0 left-3 inline-flex items-center">
+					<Icon name="material-symbols:search" class="text-2xl" />
+				</span>
+			</form>
+		</div>
+		<div>
+			<label>Buscar por</label>
+			<select v-model="state.where" class="select select-block select-lg">
+				<option value="name">Nombre o apellidos</option>
+				<option value="email">Email</option>
+			</select>
+		</div>
 	</div>
 </template>
+
+<script setup lang="ts">
+import type { NewUser } from "~/interfaces/db";
+import { User } from "../../classes/User"
+import { user } from "../../stores/user"
+const state = reactive({
+	searchName: "" as string,
+	where: "name" as "name" | "email",
+	user: new User()
+})
+
+const userStore = user()
+
+const Search = async (where: "name" | "email") => {
+
+	switch (where) {
+		case "name":
+			const response = await state.user.SearchUserFromDb(where, state.searchName.toUpperCase())
+			userStore.searchUser = response.msgObject as Array<NewUser>
+			break;
+		case "email":
+			const response1 = await state.user.SearchUserFromDb(where, state.searchName.toLowerCase())
+			userStore.searchUser = response1.msgObject as Array<NewUser>
+		default:
+			break;
+	}
+}
+</script>

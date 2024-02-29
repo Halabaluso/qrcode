@@ -97,4 +97,5 @@
         const v$ = useVuelidate(rules, state.user.GetUser() as any)
         return await v$.value.$validate()
     }
+    
 </script>

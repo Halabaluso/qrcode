@@ -14,6 +14,3 @@
         </div>
     </div>
 </template>
-<script setup lang="ts">
-const img: string = inject('img') as string
-</script>

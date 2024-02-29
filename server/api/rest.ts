@@ -31,6 +31,8 @@ export default defineEventHandler(async (e) => {
                     response = await dbRead.ReadAll()
                 }else if(objectJsonGet.type === "one"){
                     response = await dbRead.ReadOne(objectJsonGet.index as string)
+                }else if(objectJsonGet.type === "search"){
+                    response = await dbRead.Search(objectJsonGet.key as string, objectJsonGet.value as string)
                 }
                 break;
             case "DELETE":
@@ -44,10 +46,10 @@ export default defineEventHandler(async (e) => {
         }
 
         return response
-    } catch (error) {
+    } catch (error:any) {
         response.err = true
         response.msg = "Script error happen"
-        response.msgObject = error
+        response.msgObject = error.toString()
         return response
     }
 })

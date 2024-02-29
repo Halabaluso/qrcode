@@ -15,7 +15,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<template v-for="(user, i) in state.arrayUsers" :key="i">
+				<template v-for="(user, i) in userStore.searchUser" :key="i">
 					<tr v-if="i >= state.pageStart && i < (state.pageStart + state.limitPage)">
 						<th>
 							{{ i + 1 }}
@@ -24,15 +24,7 @@
 						<td>{{ user.email }}</td>
 						<td>
 							<div class="flex flex-row items-center gap-2">
-								<label @click="GetIndexQr(user.index as string)" for="qr-modal" class="btn btn-primary">
-									<Icon name="material-symbols:qr-code" class="text-xl" />
-								</label>
-								<label @click="userStore.user = user" for="general-modal-1" class="btn">
-									<Icon name="material-symbols:directory-sync" />
-								</label>
-								<label  @click="userStore.user = user" for="general-modal" class="btn btn-error">
-									<Icon name="material-symbols:delete-rounded" />
-								</label>
+                                <button>Acciones</button>
 							</div>
 						</td>
 					</tr>
@@ -40,8 +32,6 @@
 			</tbody>
 		</table>
 	</div>
-	<!--Alert no user-->
-	<CommonsAlerts :title="state.titleAlert" :msg="state.msgAlert" :show="state.showAlert" :type="state.typeAlert" class="mt-5"/>
 	<!--Pagination Tab-->
 	<div class="pagination mt-5">
 		<button @click="Pagination(`back`)" class="btn">
@@ -60,10 +50,11 @@
 			</svg>
 		</button>
 	</div>
-	<!--Modal-->
+	<!--Modal
 	<ModalsQrShow />
 	<ModalsGeneralModal :title="state.deleteModalTitle" :msg="state.deleteModalMsg" :buttonTitle="state.deleteButtonTitle"
 		:action="DeleteRow" />
+    -->
 </template>
 <script setup lang = "ts">
 import type { GeneralResponse } from "../../server/interfaces/dbresponses"
@@ -74,7 +65,6 @@ import { user } from "../../stores/user"
 //Dinamic variables
 const state = reactive({
 	user: new User(),
-	arrayUsers: [] as Array<NewUser>,
 
 	page: 1,
 	limitPage: 10,
@@ -82,12 +72,7 @@ const state = reactive({
 
 	deleteModalTitle: "Eliminar usuario" as string,
 	deleteModalMsg: "¿Estás seguro de que deseas eliminar este usuario?" as string,
-	deleteButtonTitle: "Si, eliminar",
-
-	titleAlert : "No hay usuarios.",
-	msgAlert : "No se ha registrado ningún usuario.",
-	showAlert: false,
-	typeAlert: "info"
+	deleteButtonTitle: "Si, eliminar"
 })
 
 const userIndex = ref("")
@@ -97,29 +82,11 @@ const userStore = user()
 
 
 //On mounted component and props
-onMounted(async () => {
-	const load = push.load("Cargando...")
-	const connectDb = await GetUsersDb()
-	if (!connectDb.err) {
-		state.arrayUsers = connectDb.msgObject as Array<NewUser>
-		push.success("Usuarios cargados correctamente.")
-		load.destroy()
-	} else {
-		state.arrayUsers = []
-		state.showAlert = true
-		push.success("Ningún usuario encontrado.")
-		load.destroy()
-	}
-})
 
-provide("qrString", userIndex)
 
 
 //ComponentsFunctions
-const GetUsersDb = async (): Promise<GeneralResponse> => {
-	const response = await state.user.GetUsersFromDb("/api/rest", "GET")
-	return response
-}
+
 
 const GetIndexQr = (index: string) => {
 	userIndex.value = index
@@ -132,33 +99,13 @@ const Pagination = (type: "back" | "next") => {
 			state.pageStart -= state.limitPage
 		}
 	} else {
-		if ((state.arrayUsers.length - state.limitPage) > (state.pageStart)) {
+		if ((userStore.searchUser.length - state.limitPage) > (state.pageStart)) {
 			state.page += 1
 			state.pageStart += state.limitPage
 		}
 	}
 }
 
-const DeleteRow = async () => {
-	const load = push.load("Cargando")
-	const response = await state.user.DeleteUserFromDb(userStore.user.index as string)
-	console.log(userStore.user.index)
-	if (!response.err) {
-		push.success("Usuarios borrados con éxito.")
-		const connectDb = await GetUsersDb()
-		if (!connectDb.err) {
-			state.arrayUsers = connectDb.msgObject as Array<NewUser>
-			push.success("Usuarios cargados correctamente.")
-			load.destroy()
-		} else {
-			state.arrayUsers = []
-			push.success("Ningún usuario encontrado.")
-			load.destroy()
-		}
-	} else {
-		push.error("Problema al borrar usuario.")
-		load.destroy()
-	}
-}
+
 
 </script>

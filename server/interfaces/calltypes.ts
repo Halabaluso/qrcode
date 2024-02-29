@@ -9,9 +9,11 @@ interface DeleteType {
 }
 
 interface GetType {
-    type: "one" | "all"
+    type: "one" | "all" | "search"
     query: string,
-    index?: string
+    index?: string,
+    key?: string,
+    value?: any
 }
 
 interface PutType {

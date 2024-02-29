@@ -139,6 +139,36 @@ class DbCrud {
 
         return response
     }
+
+    async Search(key: string, value: any): Promise<GeneralResponse> {
+        const response: GeneralResponse = {
+            err: false,
+            msg: ""
+        }
+        await this.db.collection(this.query).where(key, '>=', value).where(key, '<=', value + '~').get()
+            .then((data) => {
+                response.err = false
+                response.msg = "Objecto encontrado"
+                const searchArray = [] as Array<any>
+                data.forEach(element => {
+                    searchArray.push(element.data())
+                })
+                if(searchArray.length > 0){
+                    response.err = false
+                    response.msg = "Objecto encontrado"
+                }else{
+                    response.err = true
+                    response.msg = "Objecto no encontrado"
+                }   
+                response.msgObject = searchArray
+            })
+            .catch((error) => {
+                response.err = true
+                response.msg = "Objecto no encontrado"
+            })
+
+        return response
+    }
 }
 
 export {

@@ -4,7 +4,8 @@ import type { NewUser } from "../interfaces/db"
 const user = defineStore("user", {
     state() {
         return{
-            user: {} as NewUser
+            user: {} as NewUser,
+            searchUser: [] as Array<NewUser>
         }
     },
 })
