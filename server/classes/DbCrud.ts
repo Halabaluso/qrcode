@@ -53,8 +53,6 @@ class DbCrud {
         return response
     }
 
-    
-
     async ReadOne(index: string): Promise<GeneralResponse> {
         const response: GeneralResponse = {
             err: false,
